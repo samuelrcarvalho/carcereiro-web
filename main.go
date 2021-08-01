@@ -40,7 +40,7 @@ func main() {
 
 	r.POST("/gerarcodigo", func(c *gin.Context) {
 		usuario := c.PostForm("usuario")
-		enviarCode(usuario)
+		enviarCode(usuario, db)
 		c.String(http.StatusOK, "", configs["rocket_url"])
 
 	})

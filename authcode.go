@@ -7,11 +7,27 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
+
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
-func enviarCode(user string) {
+type Auth struct {
+	User      string `gorm:"primaryKey"`
+	Authcode  string
+	Expire_in time.Time
+}
 
+func enviarCode(user string, db *gorm.DB) {
 	code := geraCode(6)
+
+	teste := &Auth{User: user, Authcode: code, Expire_in: time.Now()}
+
+	db.Clauses(clause.OnConflict{
+		UpdateAll: true,
+	}).Create(teste)
+
 	url := configs["rocket_url"]
 	method := "POST"
 
