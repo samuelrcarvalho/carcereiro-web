@@ -1,10 +1,12 @@
 package main
 
 import (
-	"database/sql"
-	"log"
+	"net/http"
 
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 
 	"github.com/spf13/viper"
 )
@@ -17,50 +19,47 @@ func init() {
 	viper.ReadInConfig()
 }
 
+var configs map[string]string
+
 func main() {
-
-	/* 	r := gin.Default()
-	   	r.LoadHTMLGlob("templates/*.tmpl")
-
-	   	r.GET("/", func(c *gin.Context) {
-	   		c.HTML(http.StatusOK, "index.tmpl", gin.H{})
-	   	})
-
-	   	r.POST("/gerarcodigo", func(c *gin.Context) {
-	   		usuario := c.PostForm("usuario")
-	   		enviar(usuario)
-	   		c.String(http.StatusOK, "teste", usuario)
-	   	})
-	   	r.Run() */
-
-	db, err := sql.Open("mysql", viper.GetString("user")+":"+viper.GetString("password")+"@tcp("+viper.GetString("host")+":"+viper.GetString("port")+")/carcereiro")
+	dsn := viper.GetString("user") + ":" + viper.GetString("password") + "@tcp(" + viper.GetString("host") + ":" + viper.GetString("port") + ")/carcereiro?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal(err)
+		panic("failed to connect database")
 	}
-	defer db.Close()
 
-	configs := configDB(db)
+	configs = configDB(db)
+
+	// starting Gin
+	r := gin.Default()
+	r.LoadHTMLGlob("templates/*.tmpl")
+
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.tmpl", gin.H{})
+	})
+
+	r.POST("/gerarcodigo", func(c *gin.Context) {
+		usuario := c.PostForm("usuario")
+		enviarCode(usuario)
+		c.String(http.StatusOK, "", configs["rocket_url"])
+
+	})
+	r.Run()
+
 }
 
 type Config struct {
-	config string
-	value  string
+	Config string `gorm:"primaryKey"`
+	Value  string
 }
 
-func configDB(db *sql.DB) map[string]string {
-	rows, err := db.Query("SELECT * FROM config")
-	if err != nil {
-		log.Fatal(err)
-	}
+//map[string]string
+func configDB(db *gorm.DB) map[string]string {
 	configs := make(map[string]string)
-	var config Config
-
-	for rows.Next() {
-		err := rows.Scan(&config.config, &config.value)
-		if err != nil {
-			log.Fatal(err)
-		}
-		configs[config.config] = config.value
+	var listaTudo []Config
+	db.Find(&listaTudo)
+	for _, item := range listaTudo {
+		configs[item.Config] = item.Value
 	}
 	return configs
 }
