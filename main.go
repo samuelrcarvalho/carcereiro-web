@@ -41,11 +41,17 @@ func main() {
 	r.POST("/gerarcodigo", func(c *gin.Context) {
 		usuario := c.PostForm("usuario")
 		enviarCode(usuario, db)
-		c.String(http.StatusOK, "", configs["rocket_url"])
-
+		c.HTML(http.StatusOK, "gerarcodigo.tmpl", gin.H{})
 	})
-	r.Run()
 
+	r.POST("/validacodigo", func(c *gin.Context) {
+		codigo := c.PostForm("code")
+		usuario := c.PostForm("user")
+		c.String(http.StatusOK, "AQUI", codigo, usuario)
+		//c.HTML(http.StatusOK, "gerarcodigo.tmpl", gin.H{})
+	})
+
+	r.Run()
 }
 
 type Config struct {
@@ -53,7 +59,6 @@ type Config struct {
 	Value  string
 }
 
-//map[string]string
 func configDB(db *gorm.DB) map[string]string {
 	configs := make(map[string]string)
 	var listaTudo []Config

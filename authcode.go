@@ -22,11 +22,11 @@ type Auth struct {
 func enviarCode(user string, db *gorm.DB) {
 	code := geraCode(6)
 
-	teste := &Auth{User: user, Authcode: code, Expire_in: time.Now()}
+	newRecord := &Auth{User: user, Authcode: code, Expire_in: time.Now().Local().Add(time.Minute * time.Duration(5))}
 
 	db.Clauses(clause.OnConflict{
 		UpdateAll: true,
-	}).Create(teste)
+	}).Create(newRecord)
 
 	url := configs["rocket_url"]
 	method := "POST"
