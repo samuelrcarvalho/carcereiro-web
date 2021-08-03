@@ -47,8 +47,14 @@ func main() {
 	r.POST("/validacodigo", func(c *gin.Context) {
 		codigo := c.PostForm("code")
 		usuario := c.PostForm("user")
-		c.String(http.StatusOK, "AQUI", codigo, usuario)
-		//c.HTML(http.StatusOK, "gerarcodigo.tmpl", gin.H{})
+
+		if accessValid(db, usuario, codigo) == true {
+			c.HTML(http.StatusOK, "tabelas.tmpl", gin.H{
+				"entrada": "'taimano','olhai'",
+			})
+		} else {
+			c.HTML(http.StatusOK, "error.tmpl", gin.H{})
+		}
 	})
 
 	r.Run()
