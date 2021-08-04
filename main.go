@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -43,15 +44,28 @@ func main() {
 		enviarCode(usuario, db)
 		c.HTML(http.StatusOK, "gerarcodigo.tmpl", gin.H{})
 	})
-
 	r.POST("/validacodigo", func(c *gin.Context) {
 		codigo := c.PostForm("code")
 		usuario := c.PostForm("user")
 
+		listao := tabelaTabelas(db)
 		if accessValid(db, usuario, codigo) == true {
 			c.HTML(http.StatusOK, "tabelas.tmpl", gin.H{
-				"entrada": "'taimano','olhai'",
+				"entrada": listao,
 			})
+		} else {
+			c.HTML(http.StatusOK, "error.tmpl", gin.H{})
+		}
+	})
+	r.POST("/libera", func(c *gin.Context) {
+		codigo := c.PostForm("code")
+		usuario := c.PostForm("user")
+		lista := c.PostFormArray("lista")
+		if accessValid(db, usuario, codigo) == true {
+			//c.HTML(http.StatusOK, "libera.tmpl", gin.H{})
+			fmt.Println(codigo)
+			fmt.Println(usuario)
+			fmt.Println(lista)
 		} else {
 			c.HTML(http.StatusOK, "error.tmpl", gin.H{})
 		}

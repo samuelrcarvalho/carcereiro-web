@@ -4,23 +4,31 @@
 </head>
 <body onload="lista()">
     Selecione as tabelas desejadas:<br><br>
-    <form>
-        <select id="lista" name="lista" multiple>
-            
+    <form action="/libera" method="POST" id="formliberaacesso">
+        <select id="lista" name="lista" multiple size="15">
         </select>
+        <input type="hidden" id="user" name="user">
+        <input type="hidden" id="code" name="code">
+        <br><br>
+        * Utilize <bold>ctrl</bold> para fazer multi-seleção.
+        <br><br>    
+        <button type="button" class="btn btn-primary" onclick="enviar()">Liberar</button>
     </form>
-
     <script type="text/javascript">
-        
         function lista() {
-
-            var relacao = ['bla','jao'];
+            var relacao = {{ .entrada }};
             const sb = document.querySelector('#lista');
 
             for (var i = 0; i < relacao.length; i++) {
                 const option = new Option(relacao[i], relacao[i]);
                 sb.add(option,undefined);
             }
+            document.getElementById("user").value = window.localStorage.getItem("user")
+			document.getElementById("code").value = window.localStorage.getItem("code")
         }
+        function enviar() {
+
+			document.getElementById("formliberaacesso").submit();
+		}
     </script>
 </html>
