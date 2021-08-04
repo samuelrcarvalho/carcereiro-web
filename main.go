@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -54,7 +53,9 @@ func main() {
 				"entrada": listao,
 			})
 		} else {
-			c.HTML(http.StatusOK, "error.tmpl", gin.H{})
+			c.HTML(http.StatusOK, "error.tmpl", gin.H{
+				"erro": "CÓDIGO ERRADO OU EXPIRADO",
+			})
 		}
 	})
 	r.POST("/libera", func(c *gin.Context) {
@@ -62,12 +63,22 @@ func main() {
 		usuario := c.PostForm("user")
 		lista := c.PostFormArray("lista")
 		if accessValid(db, usuario, codigo) == true {
-			//c.HTML(http.StatusOK, "libera.tmpl", gin.H{})
-			fmt.Println(codigo)
-			fmt.Println(usuario)
-			fmt.Println(lista)
+			if usuarioExiste(usuario) == true {
+				if tabelaRestrita(db, lista) == false {
+					grant(lista, usuario)
+					//ABRIR CHAMADO DEPOIS DO GRANT
+				} else {
+					// Abre chamado porém sem darg grant. tabela importante.
+				}
+			} else {
+				c.HTML(http.StatusOK, "error.tmpl", gin.H{
+					"erro": "USUARIO NÃO PERMITIDO PARA LIBERAÇÃO DE ACESSO",
+				})
+			}
 		} else {
-			c.HTML(http.StatusOK, "error.tmpl", gin.H{})
+			c.HTML(http.StatusOK, "error.tmpl", gin.H{
+				"erro": "CÓDIGO ERRADO OU EXPIRADO",
+			})
 		}
 	})
 

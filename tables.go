@@ -5,7 +5,7 @@ import (
 )
 
 type Table struct {
-	Table string `gorm:"primaryKey"`
+	Nome string `gorm:"primaryKey"`
 }
 
 func tabelaTabelas(db *gorm.DB) []string {
@@ -14,7 +14,7 @@ func tabelaTabelas(db *gorm.DB) []string {
 	db.Find(&pegaLista)
 
 	for _, item := range pegaLista {
-		listao = append(listao, item.Table)
+		listao = append(listao, item.Nome)
 	}
 	return listao
 
