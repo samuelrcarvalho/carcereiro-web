@@ -1,0 +1,37 @@
+<html>
+<head><title>Carcereiro</title>
+<meta http-equiv=”Content-Type” content=”text/html; charset=utf-8″>
+</head>
+<body onload="lista()">
+    Selecione as tabelas desejadas:<br>
+    <form action="/libera" method="POST" id="formliberaacesso">
+        <select id="lista" name="lista" multiple size="15">
+        </select>
+        <input type="hidden" id="user" name="user">
+        <input type="hidden" id="code" name="code">
+        <br><br>
+        * Utilize <bold>ctrl</bold> para fazer multi-seleção.
+        <br><br>
+        PIM/Jira e Descrição<br>
+        <textarea id="justificativa" rows="8" cols="45" name="justificativa"></textarea>
+        <br><br>
+        <button type="button" class="btn btn-primary" onclick="enviar()">Liberar</button>
+    </form>
+    <script type="text/javascript">
+        function lista() {
+            var relacao = {{ .entrada }};
+            const sb = document.querySelector('#lista');
+
+            for (var i = 0; i < relacao.length; i++) {
+                const option = new Option(relacao[i], relacao[i]);
+                sb.add(option,undefined);
+            }
+            document.getElementById("user").value = window.localStorage.getItem("user")
+			document.getElementById("code").value = window.localStorage.getItem("code")
+        }
+        function enviar() {
+
+			document.getElementById("formliberaacesso").submit();
+		}
+    </script>
+</html>

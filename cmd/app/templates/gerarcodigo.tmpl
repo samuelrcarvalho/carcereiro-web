@@ -1,0 +1,23 @@
+
+<html>
+<head><title>Carcereiro</title></head>
+<body onload="setarUsuario()">
+	<form action="/validacodigo" method="POST" id="formliberaracesso">
+	<center></center><div class="mb-3">
+	<label for="exampleFormControlInput1" class="form-label">Digite o código que você recebeu em seu Rocket!</label><br><br>
+	<input type="text" class="form-control" id="code" placeholder="código aqui" name="code">
+	<input type="hidden" id="user" name="user">
+	</div></center><br>
+	<button type="button" class="btn btn-primary" onclick="enviar()">Autenticar</button>
+	</form>
+	<script type="text/javascript">
+		function enviar() {
+			window.localStorage.setItem('code', document.getElementById('code').value);
+			document.getElementById("formliberaracesso").submit();
+		}
+		function setarUsuario(){
+			document.getElementById("user").value = window.localStorage.getItem("user")
+		}
+	</script>
+</body>
+</html>

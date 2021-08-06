@@ -1,0 +1,20 @@
+<html>
+<head><title>Carcereiro</title>
+<meta http-equiv=”Content-Type” content=”text/html; charset=utf-8″>
+</head>
+<body>
+	<form action="/gerarcodigo" method="POST" id="formliberaracesso">
+	<center></center><div class="mb-3">
+	<label for="exampleFormControlInput1" class="form-label">Digite seu USUÁRIO do Rocket!</label><br><br>
+	<input type="text" class="form-control" id="usuario" placeholder="meu.usuario" name="usuario">
+	</div></center><br>
+	<button type="button" class="btn btn-primary" onclick="enviar()">Receber Código</button>
+	</form>
+	<script type="text/javascript">
+		function enviar() {
+			window.localStorage.setItem('user', document.getElementById('usuario').value);
+			document.getElementById("formliberaracesso").submit();
+		}
+	</script>	
+</body>
+</html>
