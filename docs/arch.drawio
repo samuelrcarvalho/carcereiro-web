@@ -59,7 +59,7 @@
                 <mxCell id="MpxOjJPeVTy1EKCFRsP5-22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#1ba1e2;strokeColor=#006EAF;" parent="1" source="MpxOjJPeVTy1EKCFRsP5-18" target="MpxOjJPeVTy1EKCFRsP5-20" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="MpxOjJPeVTy1EKCFRsP5-18" value="Cria ticket glpi" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
+                <mxCell id="MpxOjJPeVTy1EKCFRsP5-18" value="Cria ticket glpi" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;" parent="1" vertex="1">
                     <mxGeometry x="430" y="510" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="MpxOjJPeVTy1EKCFRsP5-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fillColor=#1ba1e2;strokeColor=#006EAF;" parent="1" source="MpxOjJPeVTy1EKCFRsP5-14" target="MpxOjJPeVTy1EKCFRsP5-18" edge="1">
@@ -71,7 +71,7 @@
                 <mxCell id="T-FEMNvMZECPwDIgLNaZ-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#1ba1e2;strokeColor=#006EAF;" parent="1" source="MpxOjJPeVTy1EKCFRsP5-20" target="T-FEMNvMZECPwDIgLNaZ-1" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="MpxOjJPeVTy1EKCFRsP5-20" value="Informa do ticket e liberação" style="whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
+                <mxCell id="MpxOjJPeVTy1EKCFRsP5-20" value="Informa do ticket e liberação" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;" parent="1" vertex="1">
                     <mxGeometry x="354" y="620" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="MpxOjJPeVTy1EKCFRsP5-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#1ba1e2;strokeColor=#006EAF;" parent="1" source="MpxOjJPeVTy1EKCFRsP5-23" target="MpxOjJPeVTy1EKCFRsP5-1" edge="1">
