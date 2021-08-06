@@ -20,6 +20,8 @@ func init() {
 }
 
 var configs map[string]string
+var usuario string
+var lista []string
 
 func main() {
 	dsn := viper.GetString("user") + ":" + viper.GetString("password") + "@tcp(" + viper.GetString("host") + ":" + viper.GetString("port") + ")/carcereiro?charset=utf8mb4&parseTime=True&loc=Local"
@@ -59,16 +61,24 @@ func main() {
 		}
 	})
 	r.POST("/libera", func(c *gin.Context) {
+		var novoTicket string
 		codigo := c.PostForm("code")
-		usuario := c.PostForm("user")
-		lista := c.PostFormArray("lista")
+		usuario = c.PostForm("user")
+		lista = c.PostFormArray("lista")
+		justif := c.PostFormArray("justificativa")
 		if accessValid(db, usuario, codigo) == true {
 			if usuarioExiste(usuario) == true {
-				if tabelaRestrita(db, lista) == false {
-					grant(lista, usuario)
-					//ABRIR CHAMADO DEPOIS DO GRANT
+				if tabelaRestrita(db, lista) == true {
+					novoTicket = abrirTicket(justif[0], false)
+					c.HTML(http.StatusOK, "libera.tmpl", gin.H{
+						"message": "Ticket " + novoTicket + " aberto no ServiceDesk e aguardando aprovação.",
+					})
 				} else {
-					// Abre chamado porém sem darg grant. tabela importante.
+					grant(lista, usuario)
+					novoTicket = abrirTicket(justif[0], true)
+					c.HTML(http.StatusOK, "libera.tmpl", gin.H{
+						"message": "Ticket " + novoTicket + " aberto no ServiceDesk para registro.",
+					})
 				}
 			} else {
 				c.HTML(http.StatusOK, "error.tmpl", gin.H{
