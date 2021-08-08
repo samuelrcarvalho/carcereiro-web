@@ -54,12 +54,12 @@ func tokenGLPI() string {
 func novoTicketGLPI(usuario string, justificativa string, iduser string, autoclose bool) string {
 	var codigoTicket string
 	if autoclose == true {
-		codigoTicket = "267"
+		codigoTicket = configs["glpi_categoryid_autoapproved"]
 	} else {
-		codigoTicket = "191"
+		codigoTicket = configs["glpi_categoryid_toapprove"]
 	}
 	listaString := strings.Join(lista, "\\n")
-	payload := strings.NewReader(`{"input": {"entities_id": "TI","name": "Liberação de acesso por autoatendimento - ` + usuario + `","content": "` + justificativa + `\n\nTabelas solicitadas liberação:\n\n` + listaString + `","itilcategories_id": ` + codigoTicket + `,"type": 2,"users_id_recipient": ` + iduser + `}}`)
+	payload := strings.NewReader(`{"input": {"entities_id": "TI","name": "Liberação de acesso por autoatendimento - ` + usuario + `","content": "` + justificativa + `\n\nTabelas solicitadas liberação:\n` + listaString + `","itilcategories_id": ` + codigoTicket + `,"type": 2,"status": 6, "requesttypes_id": ` + configs["glpi_requesttypeid"] + `,"users_id_recipient": ` + iduser + `}}`)
 	fmt.Println(payload)
 	url := configs["glpi_url"] + "Ticket/"
 	method := "POST"

@@ -77,7 +77,7 @@ func main() {
 					grant(lista, usuario)
 					novoTicket = abrirTicket(justif[0], true)
 					c.HTML(http.StatusOK, "libera.tmpl", gin.H{
-						"message": "Ticket " + novoTicket + " aberto no ServiceDesk para registro.",
+						"message": "Ticket " + novoTicket + " criado no ServiceDesk para registro.",
 					})
 				}
 			} else {
