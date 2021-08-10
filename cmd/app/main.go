@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -14,7 +15,7 @@ import (
 func init() {
 	// Reading configfile
 	viper.SetConfigType("toml")
-	viper.AddConfigPath(".")
+	viper.AddConfigPath(os.Getenv("CARCEREIRO_HOME"))
 	viper.SetConfigName(".env")
 	viper.ReadInConfig()
 }
@@ -29,12 +30,11 @@ func main() {
 	if err != nil {
 		panic("failed to connect database")
 	}
-
 	configs = configDB(db)
 
 	// starting Gin
 	r := gin.Default()
-	r.LoadHTMLGlob("templates/*.tmpl")
+	r.LoadHTMLGlob(os.Getenv("CARCEREIRO_HOME") + "/templates/*.tmpl")
 
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{})
