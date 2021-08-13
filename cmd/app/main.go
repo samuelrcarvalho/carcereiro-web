@@ -48,9 +48,8 @@ func main() {
 	r.POST("/validacodigo", func(c *gin.Context) {
 		codigo := c.PostForm("code")
 		usuario := c.PostForm("user")
-
-		listao := tabelaTabelas(db)
 		if accessValid(db, usuario, codigo) == true {
+			listao := tabelaTabelas(db)
 			c.HTML(http.StatusOK, "tabelas.tmpl", gin.H{
 				"entrada": listao,
 			})

@@ -75,10 +75,9 @@ func accessValid(db *gorm.DB, usuario string, code string) bool {
 	var user Auth
 	liberado := false
 	expirado := true
-	db.Take(&user)
 
+	db.Where("user = ?", usuario).Find(&user)
 	expirado = time.Now().Local().After(user.Expire_in)
-
 	if usuario == user.User && code == user.Authcode && expirado == false {
 		liberado = true
 	}
