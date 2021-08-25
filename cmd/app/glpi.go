@@ -53,14 +53,19 @@ func tokenGLPI() string {
 
 func novoTicketGLPI(usuario string, justificativa string, iduser string, autoclose bool) string {
 	var codigoTicket string
+	var codigoStatus string
 	if autoclose == true {
 		codigoTicket = configs["glpi_categoryid_autoapproved"]
+		codigoStatus = "6"
 	} else {
 		codigoTicket = configs["glpi_categoryid_toapprove"]
+		codigoStatus = "2"
 	}
+
 	listaString := strings.Join(lista, "\\n")
-	payload := strings.NewReader(`{"input": {"entities_id": "TI","name": "Liberação de acesso por autoatendimento - ` + usuario + `","content": "` + justificativa + `\n\nTabelas solicitadas liberação:\n` + listaString + `","itilcategories_id": ` + codigoTicket + `,"type": 2,"status": 6, "requesttypes_id": ` + configs["glpi_requesttypeid"] + `,"users_id_recipient": ` + iduser + `}}`)
+	payload := strings.NewReader(`{"input": {"entities_id": "TI","name": "Liberação de acesso por autoatendimento - ` + usuario + `","content": "` + justificativa + `\n\nTabelas solicitadas liberação:\n` + listaString + `","itilcategories_id": ` + codigoTicket + `,"type": 2,"status": ` + codigoStatus + `, "requesttypes_id": ` + configs["glpi_requesttypeid"] + `,"_users_id_requester": ` + iduser + `}}`)
 	fmt.Println(payload)
+
 	url := configs["glpi_url"] + "Ticket/"
 	method := "POST"
 
@@ -91,7 +96,10 @@ func novoTicketGLPI(usuario string, justificativa string, iduser string, autoclo
 	var result3 map[string]interface{}
 
 	json.Unmarshal([]byte(body), &result3)
+
+	fmt.Println(result3)
 	novoChamado := result3["id"]
+	//novoChamado := "5"
 	return fmt.Sprint(novoChamado)
 }
 
