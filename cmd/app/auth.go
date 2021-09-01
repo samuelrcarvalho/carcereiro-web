@@ -22,7 +22,7 @@ type Auth struct {
 func enviarCode(user string, db *gorm.DB) {
 	code := geraCode(6)
 
-	newRecord := &Auth{User: user, Authcode: code, Expire_in: time.Now().Local().Add(time.Minute * time.Duration(180))}
+	newRecord := &Auth{User: user, Authcode: code, Expire_in: time.Now().Local().Add(time.Minute * time.Duration(5))}
 
 	db.Clauses(clause.OnConflict{
 		UpdateAll: true,

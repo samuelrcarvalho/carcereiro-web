@@ -99,7 +99,6 @@ func novoTicketGLPI(usuario string, justificativa string, iduser string, autoclo
 
 	fmt.Println(result3)
 	novoChamado := result3["id"]
-	//novoChamado := "5"
 	return fmt.Sprint(novoChamado)
 }
 
