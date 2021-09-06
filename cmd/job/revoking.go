@@ -23,7 +23,7 @@ func revokeUserPrivileges() {
 	for _, item := range listaUsuarios {
 		_ = dbmysql.Where("user = ?", item).Find(&tabelasRevoke)
 		for _, item2 := range tabelasRevoke {
-			dbmysql.Exec("REVOKE ALL ON " + item2.Db + "." + item2.Table_name + " FROM '" + item2.User + "'@'" + item2.Host + "';")
+			dbmysql.Exec("REVOKE SELECT ON  " + item2.Db + "." + item2.Table_name + " FROM '" + item2.User + "'@'" + item2.Host + "';")
 		}
 	}
 }

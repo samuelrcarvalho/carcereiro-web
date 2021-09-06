@@ -1,4 +1,4 @@
-module carcereiro-web
+module carcereiro-job
 
 go 1.16
 

@@ -12,6 +12,7 @@ import (
 
 var db *gorm.DB
 var dbmysql *gorm.DB
+var configs map[string]string
 
 func init() {
 	// Reading configfile
@@ -38,15 +39,17 @@ func main() {
 		Logger: newLogger,
 	})
 	if err != nil {
-		panic("failed to connect database")
+		panic("Failed to connect carcereiro database")
 	}
+
+	configs = configDB(db)
 	// Conexão com a tabela mysql
-	dsmysql := viper.GetString("user") + ":" + viper.GetString("password") + "@tcp(" + viper.GetString("host") + ":" + viper.GetString("port") + ")/mysql?charset=utf8mb4&parseTime=True&loc=Local"
+
+	dsmysql := configs["target_database_user"] + ":" + configs["target_database_pwd"] + "@tcp(" + configs["target_database_host"] + ":" + configs["target_database_port"] + ")/mysql?charset=utf8mb4&parseTime=True&loc=Local"
 	dbmysql, err2 = gorm.Open(mysql.Open(dsmysql), &gorm.Config{})
 	if err2 != nil {
-		panic("failed to connect database")
+		panic("Failed to connect target database")
 	}
-	_ = configDB(db)
 
 	revokeUserPrivileges()
 }
